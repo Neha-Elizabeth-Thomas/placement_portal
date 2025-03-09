@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { Data } from "../AdminDashboard/ExcelComponent/Data";
 import axios from "axios";
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const PublishResult = () => {
+    const navigate = useNavigate();
     const [excelFile, setExcelFile] = useState(null);
     const [excelFileError, setExcelFileError] = useState(null);
     const [excelData, setExcelData] = useState(null);
@@ -74,10 +77,7 @@ const PublishResult = () => {
             console.log(data);
             setExcelData(data);
 
-             if (!excelData || excelData.length === 0) {
-                    alert("No data to process!");
-                     return;
-             }
+            
             
             
             for (const row of excelData) {
@@ -111,12 +111,27 @@ const PublishResult = () => {
         }
     }
 
-    alert("All data processed successfully!");
+     Swal.fire({
+            icon: 'success',
+            title: 'Result Enterd Into Database Successfully!',
+            showConfirmButton: false,
+            timer: 2000,  // Auto close after 2 sec
+          });
+    
+          setTimeout(() => {
+            navigate('/Admin-dashboard'); // Redirect after alert
+          }, 2000);
+    
 
             
             
         } else {
             setExcelData(null);
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed!',
+                    text: err.response?.data?.message || 'Something went wrong',
+                  });
         }
     };
 

@@ -107,49 +107,104 @@ useEffect(() => {
  }, []);
   
   
-
+{/*Duration */}
 const handleShowRounds = (driveId) => {
   const rounds = RoundDrive.filter((round) => round.drive_id === driveId);
+
   setSelectedDriveRounds(rounds);
+  
   setEditedRounds(
     rounds.reduce((acc, round) => {
-      acc[`${round.drive_id}-${round.round_number}`] = { ...round };
+      let durationHours = "00";
+      let durationMinutes = "00";
+
+      if (round.duration) {
+        if (typeof round.duration === "string") {
+          // If duration is a string, try splitting
+          const durationParts = round.duration.split(":");
+          durationHours = durationParts[0] || "00";
+          durationMinutes = durationParts[1] || "00";
+        } else if (typeof round.duration === "object") {
+          // If duration is an object (e.g., returned as { hours: x, minutes: y })
+          durationHours = round.duration.hours || "00";
+          durationMinutes = round.duration.minutes || "00";
+        }
+      }
+
+      acc[`${round.drive_id}-${round.round_number}`] = {
+        ...round,
+        duration: {
+          hours: durationHours,
+          minutes: durationMinutes,
+        },
+      };
       return acc;
     }, {})
   );
+
   setShowForm(true);
 };
 
+
+
 const handleRoundChange = (e, roundKey, field) => {
-  setEditedRounds({
-    ...editedRounds,
-    [roundKey]: {
-      ...editedRounds[roundKey],[field]: e.target.value,
-    },
-  });
+  if (field === "duration.hours" || field === "duration.minutes") {
+    const [key, subfield] = field.split("."); // Split field into "duration" and "hours/minutes"
+    setEditedRounds((prev) => ({
+      ...prev,
+      [roundKey]: {
+        ...prev[roundKey],
+        duration: {
+          ...prev[roundKey].duration,
+          [subfield]: e.target.value,
+        },
+      },
+    }));
+  } else {
+    setEditedRounds((prev) => ({
+      ...prev,
+      [roundKey]: {
+        ...prev[roundKey],
+        [field]: e.target.value,
+      },
+    }));
+  }
 };
 
-const handleUpdate = async() => {
+
+const handleUpdate = async () => {
   console.log("Updated Rounds: ", editedRounds);
-try {
+  try {
     await Promise.all(
       Object.entries(editedRounds).map(([key, roundData]) => {
-        const [drive_id, round_number] = key.split("-"); // Extract IDs
+        const [drive_id, round_number] = key.split("-");
+
+        // Convert hours/minutes into PostgreSQL INTERVAL format
+        const formattedDuration = `${roundData.duration.hours || "00"}:${
+          roundData.duration.minutes || "00"
+        }:00`;
 
         return axios.put(
           `http://localhost:3000/portal/update-round/${drive_id}/${round_number}`,
-          roundData
+          {
+            ...roundData,
+            duration: formattedDuration, // Send as HH:MI:SS
+          }
         );
       })
     );
-  alert("All rounds updated");
+    alert("All rounds updated");
     console.log("✅ All rounds updated successfully!");
   } catch (error) {
-    console.error("❌ Error updating rounds:", error.response?.data || error.message);
+    alert(`Error updating rounds: ${JSON.stringify(error.response?.data) || error.message}`);
+    console.error(
+      "❌ Error updating rounds:",
+      error.response?.data || error.message
+    );
   }
+
   setShowForm(false);
 };
-
   
  
 
@@ -860,13 +915,22 @@ setTimeout(() => setDrivechoose(true), 10);
                   onChange={(e) => handleRoundChange(e, roundKey, "round_date")}
                 />
 
-                <label className="block mt-2 font-bold  text-[#005f69]">Duration (hours/minutes)</label>
+                <label className="block mt-2 font-bold text-[#005f69]">Duration (Hours)</label>
                 <input
-                  type="text"
+                  type="number"
                   className="w-full border-[#005f69] rounded-md focus:ring focus:ring-blue-500"
-                  value={editedRounds[roundKey].duration.hours || editedRounds[roundKey].duration.minutes}
-                  onChange={(e) => handleRoundChange(e, roundKey, "duration")}
+                  value={editedRounds[roundKey].duration?.hours || ""}
+                  onChange={(e) => handleRoundChange(e, roundKey, "duration.hours")}
                 />
+
+                <label className="block mt-2 font-bold text-[#005f69]">Duration (Minutes)</label>
+                <input
+                  type="number"
+                  className="w-full border-[#005f69] rounded-md focus:ring focus:ring-blue-500"
+                  value={editedRounds[roundKey].duration?.minutes || ""}
+                  onChange={(e) => handleRoundChange(e, roundKey, "duration.minutes")}
+                />
+
 
                 <label className="block mt-2 font-bold  text-[#005f69]">Location</label>
                 <input

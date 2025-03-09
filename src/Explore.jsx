@@ -7,6 +7,10 @@ import alumni1 from "./assets/unni.png"; // Import the image
 import alumni2 from "./assets/kiara.png"; // Import the image
 import alumni3 from "./assets/alia.png"; // Import the image
 import alumni4 from "./assets/tovino.png"; // Import the image
+import p1 from "./assets/cognizant.png"
+import p2 from "./assets/Envestnet.png"
+import p3 from "./assets/tcs.png"
+import p4 from "./assets/ust_global.png"
 import { FaCheckCircle, FaRegCheckCircle, FaUser, FaClipboardList, FaHandshake, FaClock, FaBell, FaUserTie, FaGraduationCap } from "react-icons/fa"; // Import icons
 
 const ExplorePage = () => {
@@ -16,10 +20,10 @@ const ExplorePage = () => {
     };
   // Sample data for companies and testimonials
   const companies = [
-    { id: 1, name: "Google", logo: "https://via.placeholder.com/100" },
-    { id: 2, name: "Microsoft", logo: "https://via.placeholder.com/100" },
-    { id: 3, name: "Amazon", logo: "https://via.placeholder.com/100" },
-    { id: 4, name: "Infosys", logo: "https://via.placeholder.com/100" },
+    { id: 1, name: "TCS", logo: p3 },
+    { id: 2, name: "UST GLOBAL", logo: p4},
+    { id: 3, name: "ENVESTNET", logo: p2 },
+    { id: 4, name: "CONGNIZENT", logo: p1},
   ];
 
   const testimonials = [
@@ -234,24 +238,25 @@ const ExplorePage = () => {
     </div>
 
       {/* Companies Coming for Placement */}
-      <div className="bg-gray-50 py-12 px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">Our Recruiters</h2>
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {companies.map((company) => (
-            <div
-              key={company.id}
-              className="bg-white p-6 rounded-lg shadow-md text-center"
-            >
-              <img
-                src={company.logo}
-                alt={company.name}
-                className="mx-auto mb-4"
-              />
-              <p>{company.name}</p>
-            </div>
-          ))}
-        </div>
+  <div className="bg-gray-50 py-12 px-4">
+  <h2 className="text-3xl font-bold text-center mb-8">Our Recruiters</h2>
+  <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+    {companies.map((company) => (
+      <div
+        key={company.id}
+        className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center justify-center"
+      >
+        <img
+          src={company.logo}
+          alt={company.name}
+          className="w-24 h-24 object-contain mb-4"
+        />
+        <p className="text-lg font-medium">{company.name}</p>
       </div>
+    ))}
+  </div>
+</div>
+
 
       {/* Alumni Testimonials */}
       <div className="py-12 px-4">
@@ -278,10 +283,21 @@ const ExplorePage = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-8 text-center">
-        <p>Contact Us: placement@college.edu | +91 1234567890</p>
-        <p>Follow Us: [Social Media Icons]</p>
-      </footer>
+      <footer className="bg-gray-900 text-white py-6">
+      <div className="max-w-screen-xl mx-auto px-4">
+        <div className="flex  justify-center">
+          {/* Left Section */}
+          <div className="text-center md:text-left mb-4 md:mb-0">
+            <h2 className="text-xl font-bold">RIT Career Connect</h2>
+            <p className="text-sm">Empowering your career journey since 2025.</p>
+            <p className="text-sm">&copy; 2025 RIT Career Connect. All rights reserved.</p>
+          </div>
+
+     
+          
+        </div>
+      </div>
+    </footer>
     </div>
   );
 };

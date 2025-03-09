@@ -1,6 +1,9 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2'; 
+
+
 const UploadOrDeleteDrive = () => {
   const navigate = useNavigate();
   const [placementDriveData, setPlacementDriveData] = useState({
@@ -57,9 +60,17 @@ const handleSubmit = async (e) => {
     const response = await axios.post("http://localhost:3000/portal/add-drive", placementDriveData);
     console.log("Drive successfully entered into database !!", response.data);
 
-    if (response?.data?.drive?.drive_id) {
+    if (response?.data?.drive?.drive_id && response.data.drive.drive_mode === "On campus") {
       navigate(`/Admin-dashboard/AddRounds/${roundCount}/${response.data.drive.drive_id}`);
     } else {
+       Swal.fire({
+              icon: 'success',
+              title: 'Off Campus Drive Updated Successfully!',
+              
+              showConfirmButton: false,
+              timer: 2000,  // Auto close after 2 sec
+            });
+      navigate("/Admin-dashboard")
       console.error("Drive ID not found in response!");
     }
   } catch (error) {
