@@ -56,3 +56,53 @@ if (noSupplyHistory !== undefined) {
   const { rows } = await query(stud_query, params);
   return rows;
 };
+
+
+export const filterDrives = async ({ year, jobRole, company }) => {
+  let drive_query = `
+    SELECT 
+      pd.drive_id,
+      pd.company_id,
+      c.company_name,
+      pd.job_role,
+      pd.num_of_rounds,
+      pd.drive_mode,
+      pd.drive_type,
+      pd.start_date,
+      pd.last_date_to_submit,
+      pd.no_of_backlogs_permitted,
+      pd.supply_history_allowed,
+      pd.min_cgpa_required,
+      pd.focused_branches,
+      pd.description,
+      pd.training_package,
+      pd.permanent_package,
+      pd.registration_link,
+      pd.work_location
+    FROM placement_drive pd
+    JOIN company c ON pd.company_id = c.company_id
+    WHERE 1=1
+  `;
+  
+  const params = [];
+  
+  if (year) {
+    params.push(year);
+    drive_query += ` AND EXTRACT(YEAR FROM pd.start_date) = $${params.length}`;
+  }
+  
+  if (jobRole) {
+    params.push(`%${jobRole.toLowerCase()}%`);
+    drive_query += ` AND LOWER(pd.job_role) LIKE $${params.length}`;
+  }
+  
+  if (company) {
+    params.push(`%${company.toLowerCase()}%`);
+    drive_query += ` AND LOWER(c.company_name) LIKE $${params.length}`;
+  }
+
+  drive_query += " ORDER BY pd.start_date DESC";
+
+  const { rows } = await query(drive_query, params);
+  return rows;
+};

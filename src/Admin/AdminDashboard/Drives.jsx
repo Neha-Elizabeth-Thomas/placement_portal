@@ -15,6 +15,17 @@ const Drives = () => {
     const [selectedRound, setSelectedRound] = useState(null);
 const [updatedRound, setUpdatedRound] = useState({});
 
+  const formatDuration = (duration) => {
+    if (!duration) return "00:00:00";
+    
+    const hours = duration.hours || 0;
+    const minutes = duration.minutes || 0;
+    const seconds = duration.seconds || 0;
+    
+    return `${hours.toString().padStart(2, '0')}:${
+            minutes.toString().padStart(2, '0')}:${
+            seconds.toString().padStart(2, '0')}`;
+  };
 
   if (!drive) {
     return <p className="text-center text-red-500">No drive data found!</p>;
@@ -263,7 +274,9 @@ setTimeout(() => setDrivechoose(true), 10);
                 <td className="p-3 border border-gray-300">{round.round_number}</td>
                 <td className="p-3 border border-gray-300">{round.round_name}</td>
                 <td className="p-3 border border-gray-300">{new Date(round.round_date).toLocaleDateString()}</td>
-                <td className="p-3 border border-gray-300">{round.duration.seconds} sec</td>
+                <td className="p-3 border border-gray-300">
+                  {formatDuration(round.duration)}
+                </td>
                 <td className="p-3 border border-gray-300">{round.location}</td>
                 <td className="p-3 border border-gray-300">{round.mode}</td>
                 <td className="p-3 border border-gray-300">
@@ -334,13 +347,56 @@ setTimeout(() => setDrivechoose(true), 10);
         className="border p-2 rounded w-full"
       />
 
-      <label className="block mt-3">Duration (seconds):</label>
-      <input 
-        type="number" 
-        value={updatedRound.duration?.seconds || 0} 
-        onChange={(e) => setUpdatedRound({ ...updatedRound, duration: { seconds: Number(e.target.value) } })} 
-        className="border p-2 rounded w-full"
-      />
+      <div className="grid grid-cols-3 gap-4 mt-3">
+        <div>
+          <label className="block">Hours:</label>
+          <input 
+            type="number" 
+            value={updatedRound.duration?.hours || 0} 
+            onChange={(e) => setUpdatedRound({ 
+              ...updatedRound, 
+              duration: { 
+                ...updatedRound.duration,
+                hours: Number(e.target.value) 
+              } 
+            })} 
+            className="border p-2 rounded w-full"
+            min="0"
+          />
+        </div>
+        <div>
+          <label className="block">Minutes:</label>
+          <input 
+            type="number" 
+            value={updatedRound.duration?.minutes || 0} 
+            onChange={(e) => setUpdatedRound({ 
+              ...updatedRound, 
+              duration: { 
+                ...updatedRound.duration,
+                minutes: Number(e.target.value) 
+              } 
+            })} 
+            className="border p-2 rounded w-full"
+            min="0" max="59"
+          />
+        </div>
+        <div>
+          <label className="block">Seconds:</label>
+          <input 
+            type="number" 
+            value={updatedRound.duration?.seconds || 0} 
+            onChange={(e) => setUpdatedRound({ 
+              ...updatedRound, 
+              duration: { 
+                ...updatedRound.duration,
+                seconds: Number(e.target.value) 
+              } 
+            })} 
+            className="border p-2 rounded w-full"
+            min="0" max="59"
+          />
+        </div>
+      </div>
 
       <label className="block mt-3">Location:</label>
       <input 

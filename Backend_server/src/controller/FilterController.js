@@ -1,4 +1,4 @@
-import { filterStudents } from "../services/FilterServices.js";
+import { filterStudents,filterDrives } from "../services/FilterServices.js";
 
 export const getFilteredStudents = async (req, res) => {
   try {
@@ -10,5 +10,30 @@ export const getFilteredStudents = async (req, res) => {
   } catch (error) {
     console.error("Error fetching students:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+export const getFilteredDrives = async (req, res) => {
+  try {
+    const { year, jobRole, company } = req.query;
+    
+    const filteredDrives = await filterDrives({
+      year,
+      jobRole,
+      company
+    });
+
+    res.status(200).json({
+      success: true,
+      data: filteredDrives
+    });
+  } catch (error) {
+    console.error("Error filtering drives:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to filter drives",
+      error: error.message
+    });
   }
 };
