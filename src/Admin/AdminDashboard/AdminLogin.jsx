@@ -14,7 +14,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true); // Show loading
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/portal/admin/login`, { email, password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/portal/admin/login`, { email, password });
       
       localStorage.setItem("isAdminAuthenticated", "true");
 
