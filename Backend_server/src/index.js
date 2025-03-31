@@ -17,7 +17,15 @@ import chatRoutes from "./routes/chatRoutes.js"
 const app = express();
 const port = 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // Your Vite dev server
+    'https://placement-app-iota.vercel.app', // Production frontend
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true // If using cookies/auth tokens
+}));
 app.use(express.json());
 app.use('/portal', StudentRoutes);
 app.use('/portal', DriveRoutes);
