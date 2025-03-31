@@ -46,7 +46,7 @@ const handleSubmit = async (e) => {
   try {
     console.log(formData);
     // Sending form data to the server via POST request
-    const response = await axios.post("http://localhost:3000/portal/add-company", formData);
+    const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/add-company`, formData);
 
     console.log("Company registered successfully:", response.data);
 

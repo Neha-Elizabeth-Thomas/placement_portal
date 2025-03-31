@@ -32,7 +32,7 @@ const ChatBot = ({ onClose }) => {
 
         try {
             const response = await axios.post(
-                "http://localhost:3000/portal/chat",
+                `${import.meta.env.VITE_API_UR}/portal/chat`,
                 {
                     contents: [
                         {

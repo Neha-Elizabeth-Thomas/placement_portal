@@ -77,7 +77,7 @@ useEffect(()=>{
  useEffect(() => {
     const fetchStatisticsByYear = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/portal/placed-students/count-by-year");
+        const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/placed-students/count-by-year`);
         console.log("Fetched Data:", response.data); 
         const placementData = response.data.placement_data;
 
@@ -128,7 +128,7 @@ const handleSearch = async (e) => {
     fetchAllCompanies();
   } else {
     try {
-      const response = await axios.get(`http://localhost:3000/portal/get-company`);
+      const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-company`);
       const companiesData = response.data.companies;
 
       if (Array.isArray(companiesData)) {
@@ -153,7 +153,7 @@ const handleSearch = async (e) => {
 
   const fetchAllCompanies = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/portal/get-company");
+      const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-company`);
       console.log("Fetched companies:", response.data);
 
       const companiesData = response.data.companies; // Extract 'companies' array
@@ -177,7 +177,7 @@ const handleSearch = async (e) => {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/portal/placement-stats/${lastYear}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/placement-stats/${lastYear}`);
         setPlacementCount(response.data.placed_count);
         setongoingRounds(response.data.ongoing_rounds);
         setupcomingDeadlines(response.data.upcoming_deadlines);
@@ -196,7 +196,7 @@ const handleSearch = async (e) => {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/portal/registered-companies/count");
+        const res = await axios.get(`${import.meta.env.VITE_API_UR}/portal/registered-companies/count`);
         
         setCompanyCount(res.data.company_count);
       } catch (error) {
@@ -245,7 +245,7 @@ const handleSearch = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
 
     try {
-      const response = await axios.put('http://localhost:3000/portal/update-company', formData);
+      const response = await axios.put(`${import.meta.env.VITE_API_UR}/portal/update-company`, formData);
       if (response.status === 200) {
         alert("Company updated successfully!");
         setChoose(false);

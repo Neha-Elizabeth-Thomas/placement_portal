@@ -35,7 +35,7 @@ const Register = () => {
   const handleSendOTP = async () => {
     try {
       setIsSendingOTP(true); // Set loading state
-      const response = await axios.post("http://localhost:3000/portal/send-otp", {
+      const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/send-otp`, {
         email: formData.ritmail,
       });
       if (response.data.success) {
@@ -65,7 +65,7 @@ const Register = () => {
 
   const handleVerifyOTP = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/portal/verify-otp", {
+      const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/verify-otp`, {
         email: formData.ritmail,
         otp: otp,
       });
@@ -102,7 +102,7 @@ const Register = () => {
 
     if (name === "ktuid" && value.trim() !== "") {
       try {
-        const response = await axios.get("http://localhost:3000/portal/get-all-students");
+        const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-all-students`);
         const allStudents = response.data;
 
         // Find student with matching KTU ID
@@ -165,7 +165,7 @@ const Register = () => {
 
     try {
     setProgress(50);
-    const response = await axios.post("http://localhost:3000/portal/students/register", formDataToSend, {
+    const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/students/register`, formDataToSend, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

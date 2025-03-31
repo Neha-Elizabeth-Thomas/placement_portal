@@ -91,7 +91,7 @@ const AddStudent = () => {
     setExcelData(data);
 
     try {
-      const res = await axios.post("http://localhost:3000/portal/add-student", data);
+      const res = await axios.post(`${import.meta.env.VITE_API_UR}/portal/add-student`, data);
 
       if (!res || !res.status || (res.status !== 200 && res.status !== 201)) {
         throw new Error("Unexpected response status: " + res.status);

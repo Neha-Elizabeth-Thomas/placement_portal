@@ -11,7 +11,7 @@ const MyApplication = () => {
  const handleRounds = async (drive_id) => {
    try {
     setSelectedRounds([]);
-    const response = await axios.get(`http://localhost:3000/portal/get-drive-rounds/${drive_id}`);
+    const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-drive-rounds/${drive_id}`);
     setSelectedRounds(response.data); 
     setRound(true);
   } catch (error) {
@@ -30,7 +30,7 @@ const MyApplication = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/portal/registered-drives", {
+        const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/registered-drives`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

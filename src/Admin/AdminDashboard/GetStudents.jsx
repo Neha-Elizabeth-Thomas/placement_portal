@@ -13,7 +13,7 @@ const GetStudents = () => {
 
   const exportToExcel = async (drive_id) => {
     try {
-      const response = await axios.get(`http://localhost:3000/portal/Getstudents/${drive_id}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/Getstudents/${drive_id}`);
       const data = response.data;
 
       if (data.length === 0) {
@@ -36,14 +36,14 @@ const GetStudents = () => {
   };
 
   useEffect(() => {
-    let url = "http://localhost:3000/portal/getdrives"; // Default URL
+    let url = `${import.meta.env.VITE_API_UR}/portal/getdrives`; // Default URL
 
     if (selectedDrive === "On-Going-drive") {
-      url = "http://localhost:3000/portal/drives/ongoing";
+      url = `${import.meta.env.VITE_API_UR}/portal/drives/ongoing`;
     } else if (selectedDrive === "Up-coming-Drives") {
-      url = "http://localhost:3000/portal/drives/upcoming";
+      url = `${import.meta.env.VITE_API_UR}/portal/drives/upcoming`;
     } else if (selectedDrive === "Completed-drives") {
-      url = "http://localhost:3000/portal/drives/past";
+      url = `${import.meta.env.VITE_API_UR}/portal/drives/past`;
     }
 
     axios

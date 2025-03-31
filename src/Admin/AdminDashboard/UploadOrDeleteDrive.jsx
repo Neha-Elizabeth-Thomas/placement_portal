@@ -33,7 +33,7 @@ const UploadOrDeleteDrive = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/portal/get-company");
+        const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-company`);
         setCompanies(response.data.companies);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -72,7 +72,7 @@ const handleSubmit = async (e) => {
   console.log("Console is triggered !! Don't worry");
 
   try {
-    const response = await axios.post("http://localhost:3000/portal/add-drive", placementDriveData);
+    const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/add-drive`, placementDriveData);
     console.log("Drive successfully entered into database !!", response.data);
 
     if (response?.data?.drive?.drive_id && response.data.drive.drive_mode === "On Campus") {

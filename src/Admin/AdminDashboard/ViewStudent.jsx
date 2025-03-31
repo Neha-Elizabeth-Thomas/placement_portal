@@ -19,7 +19,7 @@ const ViewStudent = () => {
 
   useEffect(() => {
   const fetchStudents = async () => {
-    let url = "http://localhost:3000/portal/get-all-registered-students";
+    let url = `${import.meta.env.VITE_API_UR}/portal/get-all-registered-students`;
 
     if (activeTab === "filter") {
       const queryParams = new URLSearchParams();
@@ -27,7 +27,7 @@ const ViewStudent = () => {
         if (value) queryParams.append(key, value);
       });
 
-      url = `http://localhost:3000/portal/filter-students?${queryParams.toString()}`;
+      url = `${import.meta.env.VITE_API_UR}/portal/filter-students?${queryParams.toString()}`;
     }
 
     console.log("Fetching from:", url);

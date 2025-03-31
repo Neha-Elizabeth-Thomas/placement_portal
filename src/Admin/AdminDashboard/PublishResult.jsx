@@ -82,7 +82,7 @@ const PublishResult = () => {
                     console.log(`Processing KTU ID: ${row.ktu_id} for ${company_name}`);
 
                     const { data: driveResponse } = await axios.get(
-                        `http://localhost:3000/portal/drive-id/${company_name}/${job_role}/${year}`
+                        `${import.meta.env.VITE_API_UR}/portal/drive-id/${company_name}/${job_role}/${year}`
                     );
 
                     if (!driveResponse.driveId) {
@@ -99,7 +99,7 @@ const PublishResult = () => {
                         status: row.round_status,
                     };
 
-                    await axios.post("http://localhost:3000/portal/round-result", roundResultPayload);
+                    await axios.post(`${import.meta.env.VITE_API_UR}/portal/round-result`, roundResultPayload);
 
                     console.log(`✅ Successfully posted round result for KTU ID: ${row.ktu_id}`);
                 } catch (error) {
@@ -138,7 +138,7 @@ const PublishResult = () => {
         }
 
         try {
-            const response = await axios.delete("http://localhost:3000/portal/delete-result", {
+            const response = await axios.delete(`${import.meta.env.VITE_API_UR}/portal/delete-result`, {
                 data: { company_name, job_role, year },
             });
 

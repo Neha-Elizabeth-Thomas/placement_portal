@@ -21,7 +21,7 @@ const Result = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:3000/portal/drive/${driveId}/round-results`,
+          `${import.meta.env.VITE_API_UR}/portal/drive/${driveId}/round-results`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

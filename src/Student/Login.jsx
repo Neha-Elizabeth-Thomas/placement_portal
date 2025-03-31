@@ -18,7 +18,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/portal/login", {
+      const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/login`, {
         rit_email: email,
         password: password,
       });

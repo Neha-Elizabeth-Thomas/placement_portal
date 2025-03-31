@@ -60,7 +60,7 @@ const AddRounds = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/portal/create-round", rounds);
+      const response = await axios.post(`${import.meta.env.VITE_API_UR}/portal/create-round`, rounds);
       console.log("The insertion was successfull ROUNDS",response.data)
     } catch (error) {
       console.log("There is an error while insert round", error);

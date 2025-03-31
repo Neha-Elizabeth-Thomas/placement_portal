@@ -36,7 +36,7 @@ const Placement = () => {
           return;
         }
 
-        const res = await axios.get("http://localhost:3000/portal/student/drives/stats", {
+        const res = await axios.get(`${import.meta.env.VITE_API_UR}/portal/student/drives/stats`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ const handleConfirm = async (driveId) => {
     }
 
     const res = await axios.post(
-      `http://localhost:3000/portal/student-drive-register/${driveId}`,
+      `${import.meta.env.VITE_API_UR}/portal/student-drive-register/${driveId}`,
       {}, 
       {
         headers: {
@@ -110,7 +110,7 @@ useEffect(() => {
         return;
       }
 
-      const res = await axios.get("http://localhost:3000/portal/eligible-drives", {
+      const res = await axios.get(`${import.meta.env.VITE_API_UR}/portal/eligible-drives`, {
         headers: {
           Authorization: `Bearer ${token}`, // Send token in the header
         },

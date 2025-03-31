@@ -18,7 +18,7 @@ const StudentUpdate = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:3000/portal/profile", {
+        const response = await fetch(`${import.meta.env.VITE_API_UR}/portal/profile`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -42,7 +42,7 @@ const handleEditRound = (round) => {
     useEffect(() => {
   const fetchRounds = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/portal/get-all-rounds");
+      const response = await axios.get(`${import.meta.env.VITE_API_UR}/portal/get-all-rounds`);
       setRoundDrive(response.data); 
     } catch (error) {
       console.error("Error fetching rounds:", error);
@@ -66,7 +66,7 @@ const handleUpdateRound = async () => {
       .padStart(2, "0")}:00`;
 
     await axios.put(
-      `http://localhost:3000/portal/update-round/${updatedRound.drive_id}/${updatedRound.round_number}`,
+      `${import.meta.env.VITE_API_UR}/portal/update-round/${updatedRound.drive_id}/${updatedRound.round_number}`,
       {
         ...updatedRound,
         duration: formattedDuration,
@@ -86,7 +86,7 @@ const handleUpdateRound = async () => {
       const handleDriveDelete = async (drive) => {
      alert("Hey Are You Sure ?? You Want to Delete ? There is no undo !!!!!");
     try {
-      const result = await axios.delete(`http://localhost:3000/portal/deleteDrive/${drive.drive_id}`);
+      const result = await axios.delete(`${import.meta.env.VITE_API_UR}/portal/deleteDrive/${drive.drive_id}`);
       if (result.status === 200) {
           alert("Its get deleted successfully");
           navigate("/Admin-dashboard/GetStudents");
@@ -100,7 +100,7 @@ const handleUpdateRound = async () => {
   const handleDeleteClick = async (company) => {
     alert("Hey Are You Sure ?? You Want to Delete ? There is no undo !!!!!");
   try {
-    const res = await axios.delete(`http://localhost:3000/portal/delete-company/${company.company_id}`);
+    const res = await axios.delete(`${import.meta.env.VITE_API_UR}/portal/delete-company/${company.company_id}`);
     
     if (res.status === 200) {
       alert("Deleted successfully!!!");
@@ -172,7 +172,7 @@ setTimeout(() => setDrivechoose(true), 10);
     }
 
     try {
-        const response = await axios.put('http://localhost:3000/portal/updateDrive', {
+        const response = await axios.put(`${import.meta.env.VITE_API_UR}/portal/updateDrive`, {
             ...formDrive,
             drive_id: Number(formDrive.drive_id),  // Convert `drive_id` to integer
         });
